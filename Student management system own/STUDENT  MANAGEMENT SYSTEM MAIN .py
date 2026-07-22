@@ -84,6 +84,7 @@ def search_stu():
 def update_stu():
     update=input("Enter the ID of the student for which you want to update data: ")
     up2=input("Enter what to update(name/class/stream): ")
+    flag=0
     if up2.lower()=="name":
         with open ("student.csv","r") as f:
             rd=list(csv.reader(f))
@@ -91,10 +92,12 @@ def update_stu():
             for i in rd:
                 if i[0]==update:
                     i[1]=name
+                    flag=1
         with open ("student.csv","w",newline="") as n:
             w=csv.writer(n)
             w.writerows(rd)
-            print("\nData Updated successfully\n")
+            
+            
     elif up2.lower()=="class":
         with open("student.csv","r") as f:
             r=list(csv.reader(f))
@@ -102,10 +105,12 @@ def update_stu():
             for i in r:
                 if i[0]==update:
                     i[4]=cl
+                    flag=1
         with open("student.csv","w",newline="") as g:
             wr=csv.writer(g)
             wr.writerows(r)
-            print("\nData Updated Successfully\n")
+        
+            
     elif up2.lower()=="stream":
         with open("student.csv","r") as k:
             rs=list(csv.reader(k))
@@ -113,14 +118,18 @@ def update_stu():
             for i in rs:
                 if i[0]==update:
                     i[5]=st
+                    flag=1
         with open("student.csv","w",newline="") as k:
             wr=csv.writer(k)
             wr.writerows(rs)
-            print("\nData Updated Successfully\n")
+            
+            
+    if flag==1:
+        print("\nData Updated Successfully")
     else:
-        print("Data not updated")
-        print("\n Either you have entered wrong category or the selected category is not available for updation\n")
+        print("Data not found")
 
+        
 # FUNCTION FOR DELETING STUDENT
 
 def delete_stu():
@@ -138,9 +147,14 @@ def delete_stu():
     f.close()
     fn.close()
     if found:
-        os.remove("student.csv")
-        os.rename("new_student.csv","student.csv")
-        print("\nDATA DELETED SUCCESSFULLY\n")
+        ask=input("Do you really want to delete the data Y/N: ")
+        if ask.lower()=='y':
+            os.remove("student.csv")
+            os.rename("new_student.csv","student.csv")
+            print("\nDATA DELETED SUCCESSFULLY\n")
+        else:
+            print("Data not deleted !!")
+
     else:
         os.remove("new_student.csv")
         print("\nDATA NOT FOUND\n")
